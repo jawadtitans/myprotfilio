@@ -1,0 +1,188 @@
+{%load static %}
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>edX Registration Page</title>
+	<link rel="stylesheet" href="{%static 'front/css/style_2.css'%}">
+</head>
+
+<body>
+	<div class="container">
+		<!-- Left Side - Curved Dark Green Container -->
+		<div class="left-side">
+			<!-- Content -->
+			<div class="left-content">
+				<!-- Logo -->
+				<div class="logo-container">
+					
+						<img src="{%static 'front/img/kaaj.png'%}" alt="Logo" class="logo-image">
+					
+				</div>
+
+				<!-- Main Text -->
+				<div class="main-text">
+					<div class="yellow-bar"></div>
+					<h1 class="main-heading">
+						Start<br>
+						learning <br>
+						<span ><div class="highlight-text">with Kaaj</div></span>
+					</h1>
+				</div>
+			</div>
+		</div>
+
+		<!-- Right Side - Form -->
+		<div class="right-side">
+			<!-- Tabs -->
+			<div class="tabs-container">
+				<button id="register-tab" class="tab-button active" onclick="switchTab('register')">
+					Register
+				</button>
+				<button id="signin-tab" class="tab-button" onclick="switchTab('signin')">
+					Sign In
+				</button>
+			</div>
+
+			<!-- Register Form -->
+			<div id="register-form" class="form-container active">
+				<form method="post" action="{% url 'signup' %}">
+					{% csrf_token %}
+					{{ form.non_field_errors }}
+					<div class="input-row">
+						<div class="input-group">
+							{{ form.first_name }}
+							<label for="{{ form.first_name.id_for_label }}" class="floating-label">First Name</label>
+							{{ form.first_name.errors }}
+						</div>
+						<div class="input-group">
+							{{ form.last_name }}
+							<label for="{{ form.last_name.id_for_label }}" class="floating-label">Last Name</label>
+							{{ form.last_name.errors }}
+						</div>
+					</div>
+					<div class="input-row">
+						<div class="input-group">
+							{{ form.username }}
+							<label for="{{ form.username.id_for_label }}" class="floating-label">Username</label>
+							{{ form.username.errors }}
+						</div>
+						<div class="input-group">
+							{{ form.email }}
+							<label for="{{ form.email.id_for_label }}" class="floating-label">Email</label>
+							{{ form.email.errors }}
+						</div>
+					</div>
+					<div class="input-row">
+						<div class="input-group">
+							{{ form.phone_number }}
+							<label for="{{ form.phone_number.id_for_label }}" class="floating-label">Phone Number</label>
+							{{ form.phone_number.errors }}
+						</div>
+						<div class="input-group">
+							{{ form.role }}
+							<label for="{{ form.role.id_for_label }}" class="floating-label">Role</label>
+							{{ form.role.errors }}
+						</div>
+					</div>
+					<div class="input-group">
+						{{ form.password }}
+						<label for="{{ form.password.id_for_label }}" class="floating-label">Password</label>
+						{{ form.password.errors }}
+					</div>
+					<div class="checkbox-group">
+						<label class="checkbox-label">
+							<input type="checkbox" id="agreeMarketing" class="checkbox-input">
+							<span class="checkbox-text">I agree that KELI may send me marketing messages.</span>
+						</label>
+					</div>
+					
+					<!-- Terms Text -->
+					<div class="terms-text">
+						By creating an account, you agree to the
+						<a href="#" class="link">Terms of Service</a> and
+						<a href="#" class="link">Honor Code</a> and you acknowledge that KELI and each
+						<a href="#" class="link">Member</a> process your personal data in accordance with the
+						<a href="#" class="link">Privacy Policy</a>.
+					</div>
+					
+					<!-- Create Account Button -->
+
+					<input style="
+						width: 100%;
+						background-color: #dc2626;
+						color: white;
+						padding: 12px 24px;
+						border-radius: 10px;
+						font-weight: 500;
+						border: none;
+						cursor: pointer;
+						transition: background-color 0.2s ease;
+						margin-bottom: 32px;
+						font-size: 16px;	
+						background-color: #b91c1c;
+					" type="submit" value="Create an account for free">
+				</form>
+
+				<!-- Social Login -->
+				<div class="social-login">
+					<p class="social-text">Or register with:</p>
+					<div class="social-buttons">
+						<button class="social-btn apple-btn">
+							<span>🍎</span>
+							<span>Apple</span>
+						</button>
+						<button class="social-btn facebook-btn">
+							<span>f</span>
+							<span>Facebook</span>
+						</button>
+						<button class="social-btn google-btn">
+							<span class="google-icon">G</span>
+							<span>Google</span>
+						</button>
+						<button class="social-btn microsoft-btn">
+							<span>⊞</span>
+							<span>Microsoft</span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Sign In Form -->
+			<div id="signin-form" class="form-container">
+				<div class="input-group">
+					<input type="email" id="signin-email" class="form-input" onFocus="handleFocus('signin-email')"
+						onBlur="handleBlur('signin-email')" onInput="handleInput('signin-email')">
+					<label for="signin-email" class="floating-label">Email</label>
+				</div>
+				<div class="input-group">
+					<input type="password" id="signin-password" class="form-input"
+						onFocus="handleFocus('signin-password')" onBlur="handleBlur('signin-password')"
+						onInput="handleInput('signin-password')">
+					<label for="signin-password" class="floating-label">Password</label>
+				</div>
+				<button class="create-account-btn">Sign In</button>
+			</div>
+		</div>
+	</div>
+
+	<script src="{%static 'front/js/script.js'%}"></script>
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		document.querySelectorAll('.form-input, .form-select').forEach(function(input) {
+			input.addEventListener('focus', function() {
+				handleFocus(this.id);
+			});
+			input.addEventListener('blur', function() {
+				handleBlur(this.id);
+			});
+			input.addEventListener('input', function() {
+				handleInput(this.id);
+			});
+			// On page load, if input has value, keep label active
+			updateFloatingLabel(input.id);
+		});
+	});
+	</script>
+</body>
+
